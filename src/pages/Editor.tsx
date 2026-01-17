@@ -156,8 +156,17 @@ export default function Editor() {
 
   const stripHtml = (html: string) => {
     const sanitized = sanitizeRichText(html);
-    const parsed = new DOMParser().parseFromString(sanitized, "text/html");
-    return parsed.body.textContent || "";
+    // Replace <br> and <br/> tags with newlines
+    let text = sanitized.replace(/<br\s*\/?>/gi, '\n');
+    // Replace closing div tags with newlines to preserve line breaks
+    text = text.replace(/<\/div>/gi, '\n');
+    // Remove opening div tags
+    text = text.replace(/<div[^>]*>/gi, '');
+    // Parse remaining HTML and get text content
+    const parsed = new DOMParser().parseFromString(text, "text/html");
+    const content = parsed.body.textContent || "";
+    // Clean up multiple consecutive newlines (keep maximum 2 for paragraph breaks)
+    return content.replace(/\n{3,}/g, '\n\n').trim();
   };
 
   const handleDelete = async () => {
