@@ -169,41 +169,39 @@ export default function Dashboard() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {documents.map((doc) => (
-                  <GlassCard
+                  <div
                     key={doc.id}
-                    variant="strong"
-                    className="cursor-pointer hover:ring-2 hover:ring-primary/50 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group"
+                    className="frosted-card cursor-pointer group rounded-xl p-5"
+                    onClick={() => navigate(`/editor/${doc.id}`)}
                   >
-                    <div onClick={() => navigate(`/editor/${doc.id}`)}>
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                            <FileText className="h-5 w-5 text-primary" />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-foreground line-clamp-1">
-                              {doc.title}
-                            </h3>
-                            <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-                              <Calendar className="h-3 w-3" />
-                              <span>{formatDate(doc.updated_at)}</span>
-                            </div>
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                          <FileText className="h-5 w-5 text-primary" />
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="font-semibold text-foreground line-clamp-1">
+                            {doc.title}
+                          </h3>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+                            <Calendar className="h-3 w-3" />
+                            <span>{formatDate(doc.updated_at)}</span>
                           </div>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            confirmDelete(doc.id);
-                          }}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
                       </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive shrink-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          confirmDelete(doc.id);
+                        }}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
-                  </GlassCard>
+                  </div>
                 ))}
               </div>
             )}

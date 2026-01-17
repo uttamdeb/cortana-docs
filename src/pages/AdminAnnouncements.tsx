@@ -151,7 +151,7 @@ export default function AdminAnnouncements() {
             <Plus className="h-5 w-5" />
             Create New Announcement
           </h2>
-          <div className="space-y-4">
+          <div className="glass-panel rounded-xl p-5 space-y-4">
             <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
               <Input
@@ -194,7 +194,7 @@ export default function AdminAnnouncements() {
             </GlassCard>
           ) : (
             announcements.map((announcement) => (
-              <GlassCard key={announcement.id} variant="strong">
+              <div key={announcement.id} className="frosted-card rounded-xl p-5">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div className="flex-1">
                     <h3 className="font-semibold">{announcement.title}</h3>
@@ -228,7 +228,7 @@ export default function AdminAnnouncements() {
                     </Button>
                   </div>
                 </div>
-              </GlassCard>
+              </div>
             ))
           )}
         </div>

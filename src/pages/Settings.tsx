@@ -173,7 +173,7 @@ export default function Settings() {
 
           <div className="space-y-8">
             {/* Avatar Section */}
-            <div className="flex flex-col items-center gap-4">
+            <div className="glass-panel rounded-xl p-6 flex flex-col items-center gap-4">
               <div className="relative">
                 <Avatar className="h-24 w-24 ring-4 ring-primary/20">
                   <AvatarImage src={profile?.avatar_url || undefined} />
@@ -207,7 +207,7 @@ export default function Settings() {
             </div>
 
             {/* Form Fields */}
-            <div className="space-y-4">
+            <div className="glass-panel rounded-xl p-6 space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input

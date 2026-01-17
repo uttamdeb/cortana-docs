@@ -233,6 +233,97 @@ All colors MUST be HSL.
     background: linear-gradient(135deg, hsl(var(--background)), hsl(var(--primary) / 0.05), hsl(var(--background)));
   }
   
+  /* Glass Card Variations */
+  .glass-card-light {
+    background: hsl(var(--glass-background));
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow: var(--glass-shadow), inset 0 0 80px hsl(0 0% 100% / 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+  }
+  
+  .glass-card-light:hover {
+    background: hsl(var(--glass-background));
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: var(--glass-shadow), 0 12px 48px 0 hsl(0 0% 0% / 0.2), 0 0 24px hsl(var(--primary) / 0.2);
+    transform: translateY(-4px) translateZ(0);
+  }
+  
+  .glass-panel {
+    background: hsl(var(--glass-background));
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow: var(--glass-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-panel:hover {
+    background: hsl(var(--background) / 0.5);
+    box-shadow: 0 12px 40px 0 hsl(0 0% 0% / 0.15);
+  }
+  
+  .glass-subtle {
+    background: hsl(var(--background) / 0.3);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow: 0 4px 16px 0 hsl(0 0% 0% / 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  /* Frosted Glass Effects */
+  .frosted-overlay {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .frosted-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--glass-background));
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    z-index: -1;
+    border-radius: inherit;
+  }
+  
+  .frosted-card {
+    background: linear-gradient(135deg, hsl(var(--glass-background)), hsl(var(--background) / 0.3));
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow: var(--glass-shadow), inset 0 1px 0 0 hsl(0 0% 100% / 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .frosted-card:hover {
+    border-color: hsl(var(--primary) / 0.4);
+    box-shadow: var(--glass-shadow), 0 16px 48px 0 hsl(0 0% 0% / 0.2);
+    transform: translateY(-2px) scale(1.01);
+  }
+  
+  /* Enhanced Interactive States */
+  .glass-interactive {
+    @apply glass-strong;
+    cursor: pointer;
+    will-change: transform, box-shadow;
+  }
+  
+  .glass-interactive:hover {
+    background: hsl(var(--background) / 0.5);
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: var(--glass-shadow), 0 0 32px hsl(var(--primary) / 0.2), 0 12px 48px hsl(0 0% 0% / 0.15);
+    transform: translateY(-4px) scale(1.02) translateZ(0);
+  }
+  
+  .glass-interactive:active {
+    transform: translateY(-2px) scale(0.99) translateZ(0);
+  }
+  
   /* Custom Scrollbar */
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
@@ -330,5 +421,122 @@ All colors MUST be HSL.
   .dark .gradient-bg::before {
     background: radial-gradient(circle at 20% 50%, hsl(var(--primary) / 0.12), transparent 50%),
                 radial-gradient(circle at 80% 80%, hsl(var(--accent) / 0.12), transparent 50%);
+  }
+  
+  /* Dark mode glass variations */
+  .dark .glass-card-light {
+    background: hsl(220 15% 15% / 0.5);
+    box-shadow: var(--glass-shadow), 0 0 0 1px hsl(210 40% 60% / 0.05);
+  }
+  
+  .dark .glass-panel {
+    background: hsl(220 15% 12% / 0.5);
+  }
+  
+  .dark .frosted-card {
+    background: linear-gradient(135deg, hsl(220 15% 15% / 0.5), hsl(220 15% 12% / 0.4));
+  }
+  
+  /* Smooth Scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Enhanced Focus States for Accessibility */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid hsl(var(--primary) / 0.6);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+    transition: outline 0.2s ease;
+  }
+  
+  /* Enhanced Input States */
+  input[type="text"]:focus,
+  input[type="password"]:focus,
+  input[type="email"]:focus,
+  input[type="search"]:focus,
+  input[type="number"]:focus,
+  input[type="tel"]:focus,
+  input[type="url"]:focus,
+  select:focus,
+  textarea:focus {
+    background: hsl(var(--background) / 0.7);
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.15), 0 4px 16px hsl(0 0% 0% / 0.1);
+    transform: translateY(-1px);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+  
+  .dark input[type="text"]:focus,
+  .dark input[type="password"]:focus,
+  .dark input[type="email"]:focus,
+  .dark input[type="search"]:focus,
+  .dark input[type="number"]:focus,
+  .dark input[type="tel"]:focus,
+  .dark input[type="url"]:focus,
+  .dark select:focus,
+  .dark textarea:focus {
+    background: hsl(220 15% 15% / 0.8);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.2), 0 4px 16px hsl(0 0% 0% / 0.3);
+  }
+  
+  /* Smooth Link Transitions */
+  a {
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  a:hover {
+    transform: translateY(-1px);
+  }
+  
+  /* Accessibility - Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    
+    .glass-hover:hover,
+    .glass-card-light:hover,
+    .glass-panel:hover,
+    .frosted-card:hover,
+    .glass-interactive:hover {
+      transform: none !important;
+    }
+  }
+  
+  /* Print Styles */
+  @media print {
+    .glass,
+    .glass-strong,
+    .glass-card-light,
+    .glass-panel,
+    .glass-subtle,
+    .frosted-card {
+      background: white !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border: 1px solid #ddd !important;
+      box-shadow: none !important;
+    }
+    
+    .dark .glass,
+    .dark .glass-strong,
+    .dark .glass-card-light,
+    .dark .glass-panel {
+      background: white !important;
+      color: black !important;
+    }
   }
 }
