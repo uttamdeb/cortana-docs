@@ -36,6 +36,8 @@ interface Document {
   id: string;
   title: string;
   content: string;
+  font_family?: string;
+  font_size?: string;
   updated_at: string;
 }
 
@@ -52,6 +54,8 @@ export default function Editor() {
   const [editingTitle, setEditingTitle] = useState(false);
   const [titleInput, setTitleInput] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [currentFont, setCurrentFont] = useState<string>("Arial");
+  const [currentFontSize, setCurrentFontSize] = useState<string>("16");
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const contentRef = useRef<string>("");
 
@@ -104,21 +108,29 @@ export default function Editor() {
     setDocument(data);
     setTitleInput(data.title);
     contentRef.current = data.content || "";
+    setCurrentFont(data.font_family || "Arial");
+    setCurrentFontSize(data.font_size || "16");
     setLastSaved(new Date(data.updated_at));
     setLoading(false);
   };
 
-  const saveDocument = useCallback(async (content: string, title?: string) => {
+  const saveDocument = useCallback(async (content: string, title?: string, fontFamily?: string, fontSize?: string) => {
     if (!id || !user) return;
 
     setSaving(true);
-    const updateData: { content?: string; title?: string } = {};
+    const updateData: { content?: string; title?: string; font_family?: string; font_size?: string } = {};
     
     if (content !== undefined) {
       updateData.content = content;
     }
     if (title !== undefined) {
       updateData.title = title;
+    }
+    if (fontFamily !== undefined) {
+      updateData.font_family = fontFamily;
+    }
+    if (fontSize !== undefined) {
+      updateData.font_size = fontSize;
     }
 
     const { error } = await supabase
@@ -144,9 +156,21 @@ export default function Editor() {
       clearTimeout(saveTimeoutRef.current);
     }
     saveTimeoutRef.current = setTimeout(() => {
-      saveDocument(content);
+      saveDocument(content, undefined, currentFont, currentFontSize);
     }, 1500);
-  }, [saveDocument]);
+  }, [saveDocument, currentFont, currentFontSize]);
+
+  const handleFontChange = useCallback((font: string) => {
+    setCurrentFont(font);
+    setDocument((prev) => prev ? { ...prev, font_family: font } : null);
+    saveDocument(contentRef.current, undefined, font, currentFontSize);
+  }, [saveDocument, currentFontSize]);
+
+  const handleFontSizeChange = useCallback((size: string) => {
+    setCurrentFontSize(size);
+    setDocument((prev) => prev ? { ...prev, font_size: size } : null);
+    saveDocument(contentRef.current, undefined, currentFont, size);
+  }, [saveDocument, currentFont]);
 
   const handleTitleSave = async () => {
     if (!titleInput.trim()) {
@@ -389,6 +413,10 @@ export default function Editor() {
           content={document.content || ""}
           onChange={handleContentChange}
           username={username}
+          currentFont={currentFont}
+          currentFontSize={currentFontSize}
+          onFontChange={handleFontChange}
+          onFontSizeChange={handleFontSizeChange}
         />
       </main>
 

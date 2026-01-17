@@ -9,17 +9,28 @@ interface TextEditorProps {
   onChange: (content: string) => void;
   className?: string;
   username?: string;
+  currentFont?: string;
+  currentFontSize?: string;
+  onFontChange?: (font: string) => void;
+  onFontSizeChange?: (size: string) => void;
 }
 
-export function TextEditor({ content, onChange, className, username }: TextEditorProps) {
+export function TextEditor({ 
+  content, 
+  onChange, 
+  className, 
+  username,
+  currentFont = "Arial",
+  currentFontSize = "16",
+  onFontChange,
+  onFontSizeChange
+}: TextEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
-  const [currentFont, setCurrentFont] = useState("Arial");
-  const [currentFontSize, setCurrentFontSize] = useState("16");
   const [showCursor, setShowCursor] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
@@ -84,12 +95,16 @@ export function TextEditor({ content, onChange, className, username }: TextEdito
   };
 
   const handleFontChange = (font: string) => {
-    setCurrentFont(font);
+    if (onFontChange) {
+      onFontChange(font);
+    }
     execCommand("fontName", font);
   };
 
   const handleFontSizeChange = (size: string) => {
-    setCurrentFontSize(size);
+    if (onFontSizeChange) {
+      onFontSizeChange(size);
+    }
     // Using span with inline style for precise font size control
     const selection = window.getSelection();
     if (selection && selection.rangeCount > 0) {
