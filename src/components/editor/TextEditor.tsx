@@ -153,7 +153,7 @@ export function TextEditor({ content, onChange, className, username }: TextEdito
             "glass-strong rounded-lg p-6 focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-xl",
             "prose prose-sm md:prose-base max-w-none",
             "[&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6",
-            isMobile ? "text-base min-h-[calc(100vh-280px)]" : "min-h-[calc(100vh-300px)] custom-text-cursor"
+            isMobile ? "text-base min-h-[calc(100vh-280px)]" : "min-h-[calc(100vh-300px)] cursor-none"
           )}
           style={{ fontFamily: currentFont, fontSize: `${currentFontSize}px` }}
           onInput={handleInput}
