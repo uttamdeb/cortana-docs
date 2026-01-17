@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { GlassCard } from './GlassCard';
-import { Bell } from 'lucide-react';
+import { Bell, X } from 'lucide-react';
 import { Loader } from './ui/loader';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 interface Announcement {
   id: string;
@@ -14,6 +21,7 @@ interface Announcement {
 export function Announcements() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState<Announcement | null>(null);
 
   useEffect(() => {
     fetchAnnouncements();
@@ -35,16 +43,12 @@ export function Announcements() {
 
   if (loading) {
     return (
-      <GlassCard variant="strong" className="w-full shadow-2xl border-l-4 border-l-primary/50">
-        <div className="flex items-center gap-2 mb-6 pb-4 border-b border-border/50">
-          <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
-            <Bell className="h-4 w-4 text-primary" />
-          </div>
-          <h2 className="text-xl font-bold">Announcements</h2>
+      <GlassCard variant="strong" className="w-full">
+        <div className="flex items-center gap-2 mb-4">
+          <Bell className="h-5 w-5 text-primary" />
+          <h2 className="text-lg font-semibold">Announcements</h2>
         </div>
-        <div className="flex items-center justify-center py-8">
-          <Loader size="sm" />
-        </div>
+        <Loader size="sm" />
       </GlassCard>
     );
   }
@@ -54,27 +58,49 @@ export function Announcements() {
   }
 
   return (
-    <GlassCard variant="strong" className="w-full shadow-2xl border-l-4 border-l-primary/50">
-      <div className="flex items-center gap-2 mb-6 pb-4 border-b border-border/50">
-        <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
-          <Bell className="h-4 w-4 text-primary" />
+    <>
+      <GlassCard variant="strong" className="w-full">
+        <div className="flex items-center gap-2 mb-4">
+          <Bell className="h-5 w-5 text-primary" />
+          <h2 className="text-lg font-semibold">Announcements</h2>
         </div>
-        <h2 className="text-xl font-bold">Announcements</h2>
-      </div>
-      <div className="space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto pr-2 custom-scrollbar">
-        {announcements.map((announcement) => (
-          <div
-            key={announcement.id}
-            className="p-4 rounded-lg glass border border-border/40 hover:border-primary/40 hover:shadow-lg transition-all duration-200"
-          >
-            <h3 className="font-semibold text-foreground mb-2 line-clamp-2">{announcement.title}</h3>
-            <p className="text-sm text-muted-foreground whitespace-pre-wrap line-clamp-3">{announcement.content}</p>
-            <p className="text-xs text-muted-foreground/70 mt-3 flex items-center gap-1">
-              {new Date(announcement.created_at).toLocaleDateString()}
+        <div className="space-y-4">
+          {announcements.map((announcement) => (
+            <div
+              key={announcement.id}
+              className="p-4 rounded-lg glass-strong border border-border/40 hover:border-primary/40 hover:shadow-lg transition-all duration-200 cursor-pointer"
+              onClick={() => setSelectedAnnouncement(announcement)}
+            >
+              <h3 className="font-medium text-foreground mb-2">{announcement.title}</h3>
+              <p className="text-sm text-muted-foreground whitespace-pre-wrap line-clamp-2">{announcement.content}</p>
+              <p className="text-xs text-muted-foreground mt-2">
+                {new Date(announcement.created_at).toLocaleDateString()}
+              </p>
+            </div>
+          ))}
+        </div>
+      </GlassCard>
+
+      {/* Announcement Detail Dialog */}
+      <Dialog open={!!selectedAnnouncement} onOpenChange={(open) => !open && setSelectedAnnouncement(null)}>
+        <DialogContent className="glass-strong max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold pr-8">{selectedAnnouncement?.title}</DialogTitle>
+          </DialogHeader>
+          <div className="mt-4">
+            <p className="text-base text-foreground whitespace-pre-wrap leading-relaxed">
+              {selectedAnnouncement?.content}
+            </p>
+            <p className="text-sm text-muted-foreground mt-6 pt-4 border-t border-border/50">
+              Posted on {selectedAnnouncement && new Date(selectedAnnouncement.created_at).toLocaleDateString(undefined, {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
             </p>
           </div>
-        ))}
-      </div>
-    </GlassCard>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
