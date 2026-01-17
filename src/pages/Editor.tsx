@@ -30,6 +30,7 @@ import {
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+import { sanitizeRichText } from "@/lib/sanitizeRichText";
 
 interface Document {
   id: string;
@@ -153,9 +154,9 @@ export default function Editor() {
   };
 
   const stripHtml = (html: string) => {
-    const tmp = window.document.createElement("div");
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || "";
+    const sanitized = sanitizeRichText(html);
+    const parsed = new DOMParser().parseFromString(sanitized, "text/html");
+    return parsed.body.textContent || "";
   };
 
   const handleDelete = async () => {
