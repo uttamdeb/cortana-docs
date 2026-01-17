@@ -69,7 +69,7 @@ export function Toolbar({
     )}>
       {/* Font Family */}
       <Select value={currentFont} onValueChange={onFontChange}>
-        <SelectTrigger className={cn("h-9 bg-background/50", isMobile ? "w-28" : "w-36")}>
+        <SelectTrigger className={cn("h-9 bg-background/50", isMobile ? "w-24" : "w-36")}>
           <SelectValue placeholder="Font" />
         </SelectTrigger>
         <SelectContent className="glass-strong">
@@ -83,7 +83,7 @@ export function Toolbar({
 
       {/* Font Size */}
       <Select value={currentFontSize} onValueChange={onFontSizeChange}>
-        <SelectTrigger className="w-16 h-9 bg-background/50">
+        <SelectTrigger className={cn("h-9 bg-background/50", isMobile ? "w-14" : "w-16")}>
           <SelectValue placeholder="Size" />
         </SelectTrigger>
         <SelectContent className="glass-strong">
@@ -131,27 +131,29 @@ export function Toolbar({
         >
           <List className="h-4 w-4" />
         </Button>
+        
+        {/* AI Button (Disabled) - Inline with formatting buttons */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled
+              className="opacity-50 cursor-not-allowed h-9 w-9"
+            >
+              <Sparkles className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Coming Soon</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
 
       <div className="h-6 w-px bg-border mx-1 hidden sm:block" />
 
-      {/* AI Button (Disabled) */}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            disabled
-            className="opacity-50 cursor-not-allowed h-9 w-9 sm:w-auto sm:px-3"
-          >
-            <Sparkles className="h-4 w-4 sm:mr-2" />
-            <span className="hidden sm:inline">Analyze with AI</span>
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Coming Soon</p>
-        </TooltipContent>
-      </Tooltip>
+      {/* AI Text for Desktop */}
+      <span className="hidden sm:inline text-sm text-muted-foreground">Analyze with AI</span>
     </div>
   );
 }

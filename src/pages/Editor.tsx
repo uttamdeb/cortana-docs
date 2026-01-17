@@ -84,6 +84,7 @@ export default function Editor() {
     setDocument(data);
     setTitleInput(data.title);
     contentRef.current = data.content || "";
+    setLastSaved(new Date(data.updated_at));
     setLoading(false);
   };
 
@@ -270,7 +271,7 @@ export default function Editor() {
         Back to Dashboard
       </Button>
       
-      {/* Document Title */}
+      {/* Document Title & Save Status */}
       <div>
         <p className="text-xs text-muted-foreground mb-2">Document</p>
         {editingTitle ? (
@@ -293,37 +294,39 @@ export default function Editor() {
             </Button>
           </div>
         ) : (
-          <div
-            className="flex items-center gap-2 cursor-pointer group p-2 hover:bg-accent rounded-md"
-            onClick={() => setEditingTitle(true)}
-          >
-            <h2 className="text-base font-semibold line-clamp-1 flex-1">
-              {document.title}
-            </h2>
-            <Edit2 className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+          <div className="space-y-2">
+            <div
+              className="flex items-center gap-2 cursor-pointer group p-2 hover:bg-accent rounded-md"
+              onClick={() => setEditingTitle(true)}
+            >
+              <h2 className="text-base font-semibold line-clamp-1 flex-1">
+                {document.title}
+              </h2>
+              <Edit2 className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+            </div>
+            
+            {/* Save Status - Inline with title section */}
+            <div className="flex items-center gap-2 text-sm px-2">
+              {saving ? (
+                <>
+                  <Loader size="sm" />
+                  <span className="text-muted-foreground">Saving...</span>
+                </>
+              ) : lastSaved ? (
+                <>
+                  <Cloud className="h-4 w-4 text-primary" />
+                  <span className="text-muted-foreground">
+                    Saved {lastSaved.toLocaleTimeString()}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <CloudOff className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">Not saved</span>
+                </>
+              )}
+            </div>
           </div>
-        )}
-      </div>
-
-      {/* Save Status */}
-      <div className="flex items-center gap-2 text-sm">
-        {saving ? (
-          <>
-            <Loader size="sm" />
-            <span>Saving...</span>
-          </>
-        ) : lastSaved ? (
-          <>
-            <Cloud className="h-4 w-4 text-primary" />
-            <span className="text-muted-foreground">
-              Saved {lastSaved.toLocaleTimeString()}
-            </span>
-          </>
-        ) : (
-          <>
-            <CloudOff className="h-4 w-4" />
-            <span className="text-muted-foreground">Not saved</span>
-          </>
         )}
       </div>
 
