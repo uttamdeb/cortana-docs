@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { Toolbar } from "./Toolbar";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { sanitizeRichText } from "@/lib/sanitizeRichText";
 
 interface TextEditorProps {
   content: string;
@@ -20,15 +21,32 @@ export function TextEditor({ content, onChange, className }: TextEditorProps) {
 
   useEffect(() => {
     if (editorRef.current && editorRef.current.innerHTML !== content) {
-      editorRef.current.innerHTML = content;
+      editorRef.current.innerHTML = sanitizeRichText(content);
     }
   }, [content]);
 
   const handleInput = useCallback(() => {
     if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
+      onChange(sanitizeRichText(editorRef.current.innerHTML));
     }
   }, [onChange]);
+
+  const handlePaste = useCallback(
+    (e: React.ClipboardEvent<HTMLDivElement>) => {
+      // Prevent potentially dangerous HTML from being inserted into the editor.
+      e.preventDefault();
+
+      const html = e.clipboardData.getData("text/html");
+      if (html) {
+        document.execCommand("insertHTML", false, sanitizeRichText(html));
+        return;
+      }
+
+      const text = e.clipboardData.getData("text/plain");
+      document.execCommand("insertText", false, text);
+    },
+    []
+  );
 
   const execCommand = (command: string, value?: string) => {
     document.execCommand(command, false, value);
@@ -107,6 +125,7 @@ export function TextEditor({ content, onChange, className }: TextEditorProps) {
         )}
         style={{ fontFamily: currentFont, fontSize: `${currentFontSize}px` }}
         onInput={handleInput}
+        onPaste={handlePaste}
         onKeyUp={updateFormatState}
         onMouseUp={updateFormatState}
         suppressContentEditableWarning
