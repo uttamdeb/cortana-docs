@@ -118,10 +118,10 @@ export function TextEditor({ content, onChange, className }: TextEditorProps) {
         ref={editorRef}
         contentEditable
         className={cn(
-          "glass-strong min-h-[400px] md:min-h-[600px] rounded-lg p-6 focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-xl",
+          "glass-strong rounded-lg p-6 focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-xl",
           "prose prose-sm md:prose-base max-w-none",
           "[&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6",
-          isMobile ? "text-base" : ""
+          isMobile ? "text-base min-h-[calc(100vh-280px)]" : "min-h-[calc(100vh-300px)]"
         )}
         style={{ fontFamily: currentFont, fontSize: `${currentFontSize}px` }}
         onInput={handleInput}
