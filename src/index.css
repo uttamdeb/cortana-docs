@@ -355,6 +355,15 @@ All colors MUST be HSL.
   .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--primary) / 0.5);
   }
+  
+  /* Custom Text Cursor for Editor */
+  .custom-text-cursor {
+    cursor: text;
+  }
+  
+  .custom-text-cursor:hover {
+    cursor: text;
+  }
 }
 
 @layer base {

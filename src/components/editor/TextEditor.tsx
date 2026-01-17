@@ -105,9 +105,16 @@ export function TextEditor({ content, onChange, className, username }: TextEdito
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!isMobile && editorRef.current) {
       const rect = editorRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      // Keep cursor within editor bounds
+      const boundedX = Math.max(0, Math.min(x, rect.width));
+      const boundedY = Math.max(0, Math.min(y, rect.height));
+      
       setCursorPosition({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
+        x: boundedX,
+        y: boundedY,
       });
     }
   }, [isMobile]);
@@ -146,7 +153,7 @@ export function TextEditor({ content, onChange, className, username }: TextEdito
             "glass-strong rounded-lg p-6 focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-xl",
             "prose prose-sm md:prose-base max-w-none",
             "[&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6",
-            isMobile ? "text-base min-h-[calc(100vh-280px)]" : "min-h-[calc(100vh-300px)] cursor-none"
+            isMobile ? "text-base min-h-[calc(100vh-280px)]" : "min-h-[calc(100vh-300px)] custom-text-cursor"
           )}
           style={{ fontFamily: currentFont, fontSize: `${currentFontSize}px` }}
           onInput={handleInput}
@@ -162,11 +169,12 @@ export function TextEditor({ content, onChange, className, username }: TextEdito
         {!isMobile && showCursor && username && (
           <div
             ref={cursorRef}
-            className="pointer-events-none fixed z-50 transition-opacity duration-200"
+            className="pointer-events-none absolute z-50"
             style={{
               left: `${cursorPosition.x}px`,
               top: `${cursorPosition.y}px`,
-              transform: 'translate(-50%, -50%)',
+              transform: 'translate(8px, 8px)',
+              transition: 'left 0.05s ease-out, top 0.05s ease-out',
             }}
           >
             <div className="relative">
