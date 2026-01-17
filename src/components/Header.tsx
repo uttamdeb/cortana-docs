@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FileText, LogOut, Settings, User, Menu, X } from "lucide-react";
+import { FileText, LogOut, Settings, User, Menu, X, Megaphone } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -90,7 +90,10 @@ export function Header({ editorControls }: HeaderProps = {}) {
               </Link>
               {isAdmin && (
                 <Link to="/admin/announcements">
-                  <Button variant="ghost" size="sm">Manage Announcements</Button>
+                  <Button variant="ghost" size="sm">
+                    <Megaphone className="mr-2 h-4 w-4" />
+                    Manage Announcements
+                  </Button>
                 </Link>
               )}
             </>
@@ -173,6 +176,7 @@ export function Header({ editorControls }: HeaderProps = {}) {
           {isAdmin && (
             <Link to="/admin/announcements" onClick={() => setMobileMenuOpen(false)}>
               <Button variant="ghost" className="w-full justify-start">
+                <Megaphone className="mr-2 h-4 w-4" />
                 Manage Announcements
               </Button>
             </Link>
@@ -182,8 +186,8 @@ export function Header({ editorControls }: HeaderProps = {}) {
               <Settings className="mr-2 h-4 w-4" />
               Settings
             </Button>
-          <DarkModeToggle variant="default" className="w-full justify-start" />
           </Link>
+          <DarkModeToggle variant="default" className="w-full justify-start" />
           <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
             <LogOut className="mr-2 h-4 w-4" />
             Log out
