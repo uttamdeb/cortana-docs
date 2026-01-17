@@ -8,16 +8,20 @@ interface TextEditorProps {
   content: string;
   onChange: (content: string) => void;
   className?: string;
+  username?: string;
 }
 
-export function TextEditor({ content, onChange, className }: TextEditorProps) {
+export function TextEditor({ content, onChange, className, username }: TextEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [currentFont, setCurrentFont] = useState("Arial");
   const [currentFontSize, setCurrentFontSize] = useState("16");
+  const [showCursor, setShowCursor] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     if (editorRef.current && editorRef.current.innerHTML !== content) {
@@ -98,6 +102,26 @@ export function TextEditor({ content, onChange, className }: TextEditorProps) {
     }
   };
 
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isMobile && editorRef.current) {
+      const rect = editorRef.current.getBoundingClientRect();
+      setCursorPosition({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
+  }, [isMobile]);
+
+  const handleMouseEnter = useCallback(() => {
+    if (!isMobile) {
+      setShowCursor(true);
+    }
+  }, [isMobile]);
+
+  const handleMouseLeave = useCallback(() => {
+    setShowCursor(false);
+  }, []);
+
   return (
     <div className={cn("flex flex-col gap-4", className)}>
       <Toolbar
@@ -114,22 +138,62 @@ export function TextEditor({ content, onChange, className }: TextEditorProps) {
         currentFontSize={currentFontSize}
         isMobile={isMobile}
       />
-      <div
-        ref={editorRef}
-        contentEditable
-        className={cn(
-          "glass-strong rounded-lg p-6 focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-xl",
-          "prose prose-sm md:prose-base max-w-none",
-          "[&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6",
-          isMobile ? "text-base min-h-[calc(100vh-280px)]" : "min-h-[calc(100vh-300px)]"
+      <div className="relative">
+        <div
+          ref={editorRef}
+          contentEditable
+          className={cn(
+            "glass-strong rounded-lg p-6 focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-xl",
+            "prose prose-sm md:prose-base max-w-none",
+            "[&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6",
+            isMobile ? "text-base min-h-[calc(100vh-280px)]" : "min-h-[calc(100vh-300px)] cursor-none"
+          )}
+          style={{ fontFamily: currentFont, fontSize: `${currentFontSize}px` }}
+          onInput={handleInput}
+          onPaste={handlePaste}
+          onKeyUp={updateFormatState}
+          onMouseUp={updateFormatState}
+          onMouseMove={handleMouseMove}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          suppressContentEditableWarning
+        />
+        {/* Custom Cursor */}
+        {!isMobile && showCursor && username && (
+          <div
+            ref={cursorRef}
+            className="pointer-events-none fixed z-50 transition-opacity duration-200"
+            style={{
+              left: `${cursorPosition.x}px`,
+              top: `${cursorPosition.y}px`,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <div className="relative">
+              {/* Cursor pointer */}
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="drop-shadow-lg"
+              >
+                <path
+                  d="M5 3L5 17L9 13L12 19L14 18L11 12L17 12L5 3Z"
+                  fill="hsl(var(--primary))"
+                  stroke="white"
+                  strokeWidth="1"
+                />
+              </svg>
+              {/* Username label */}
+              <div className="absolute left-6 top-0 glass-strong rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap shadow-lg border border-primary/30">
+                {username}
+              </div>
+            </div>
+          </div>
         )}
-        style={{ fontFamily: currentFont, fontSize: `${currentFontSize}px` }}
-        onInput={handleInput}
-        onPaste={handlePaste}
-        onKeyUp={updateFormatState}
-        onMouseUp={updateFormatState}
-        suppressContentEditableWarning
-      />
+      </div>
     </div>
   );
 }

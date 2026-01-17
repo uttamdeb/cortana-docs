@@ -48,6 +48,7 @@ export default function Editor() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [username, setUsername] = useState<string>("");
   const [editingTitle, setEditingTitle] = useState(false);
   const [titleInput, setTitleInput] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -65,6 +66,25 @@ export default function Editor() {
       fetchDocument();
     }
   }, [user, id]);
+
+  useEffect(() => {
+    if (user) {
+      fetchUsername();
+    }
+  }, [user]);
+
+  const fetchUsername = async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from("profiles")
+      .select("username, full_name")
+      .eq("user_id", user.id)
+      .single();
+    
+    if (data) {
+      setUsername(data.username || data.full_name || user.email?.split('@')[0] || "User");
+    }
+  };
 
   const fetchDocument = async () => {
     if (!id) return;
@@ -368,6 +388,7 @@ export default function Editor() {
         <TextEditor
           content={document.content || ""}
           onChange={handleContentChange}
+          username={username}
         />
       </main>
 
