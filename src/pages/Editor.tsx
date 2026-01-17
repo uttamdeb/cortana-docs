@@ -180,13 +180,91 @@ export default function Editor() {
     return null;
   }
 
+  const editorControls = (
+    <>
+      <div className="flex items-center gap-2 flex-1 min-w-0">
+        {editingTitle ? (
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <Input
+              value={titleInput}
+              onChange={(e) => setTitleInput(e.target.value)}
+              className="h-9 text-base font-semibold bg-background/50 max-w-[200px] lg:max-w-xs"
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleTitleSave();
+                if (e.key === "Escape") {
+                  setTitleInput(document.title);
+                  setEditingTitle(false);
+                }
+              }}
+            />
+            <Button size="icon" variant="ghost" onClick={handleTitleSave}>
+              <Check className="h-4 w-4" />
+            </Button>
+          </div>
+        ) : (
+          <div
+            className="flex items-center gap-2 cursor-pointer group min-w-0"
+            onClick={() => setEditingTitle(true)}
+          >
+            <h1 className="text-base lg:text-lg font-semibold line-clamp-1 truncate">
+              {document.title}
+            </h1>
+            <Edit2 className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+          </div>
+        )}
+      </div>
+
+      <div className="flex items-center gap-2 shrink-0">
+        {/* Save Status */}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          {saving ? (
+            <>
+              <Loader size="sm" />
+              <span className="hidden xl:inline">Saving...</span>
+            </>
+          ) : lastSaved ? (
+            <>
+              <Cloud className="h-4 w-4 text-primary" />
+              <span className="hidden xl:inline">
+                Saved {lastSaved.toLocaleTimeString()}
+              </span>
+            </>
+          ) : (
+            <>
+              <CloudOff className="h-4 w-4" />
+              <span className="hidden xl:inline">Not saved</span>
+            </>
+          )}
+        </div>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleDownload}
+          className="hidden lg:flex"
+        >
+          <Download className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-destructive hover:text-destructive hidden lg:flex"
+          onClick={() => setDeleteDialogOpen(true)}
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      </div>
+    </>
+  );
+
   return (
     <div className="min-h-screen gradient-bg">
-      <Header />
+      <Header editorControls={editorControls} />
 
       <main className="container mx-auto px-4 py-4 md:py-8">
-        {/* Top Bar */}
-        <GlassCard variant="strong" className="mb-4 md:mb-6 p-3 md:p-4 shadow-xl">
+        {/* Mobile Top Bar */}
+        <GlassCard variant="strong" className="mb-4 md:mb-6 p-3 md:p-4 shadow-xl lg:hidden">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-2 md:gap-4">
               <Button

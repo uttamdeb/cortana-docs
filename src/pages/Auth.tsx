@@ -10,6 +10,7 @@ import { Loader } from "@/components/ui/loader";
 import { FileText } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 const authSchema = z.object({
   email: z.string().trim().email({ message: "Invalid email address" }),
@@ -94,15 +95,18 @@ export default function Auth() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-accent/20 to-background">
+      <div className="min-h-screen flex items-center justify-center gradient-bg">
         <Loader size="lg" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center gradient-bg p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center gradient-bg p-4 relative">
+      <div className="absolute top-4 right-4 z-10">
+        <DarkModeToggle />
+      </div>
+      <div className="w-full max-w-md relative z-0">
         <div className="flex flex-col items-center mb-8">
           <div className="glass-strong rounded-full p-4 mb-4">
             <FileText className="h-12 w-12 text-primary" />

@@ -100,58 +100,58 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 24 9% 10%;
-    --foreground: 60 9% 97%;
+    --background: 220 15% 8%;
+    --foreground: 210 40% 98%;
 
-    --card: 12 6% 15%;
-    --card-foreground: 60 9% 97%;
+    --card: 220 13% 12%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 30 6% 25%;
-    --popover-foreground: 60 9% 97%;
+    --popover: 220 13% 15%;
+    --popover-foreground: 210 40% 98%;
 
     --primary: 43 96% 56%;
     --primary-foreground: 20 91% 14%;
 
-    --secondary: 24 5% 44%;
-    --secondary-foreground: 60 9% 97%;
+    --secondary: 220 10% 25%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 24 5% 44%;
-    --muted-foreground: 60 9% 97%;
+    --muted: 220 10% 20%;
+    --muted-foreground: 210 40% 70%;
 
-    --accent: 25 83% 14%;
+    --accent: 220 13% 15%;
     --accent-foreground: 47 95% 53%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 85% 97%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 33 5% 32%;
-    --input: 33 5% 32%;
+    --border: 220 13% 25%;
+    --input: 220 13% 20%;
     --ring: 43 96% 56%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 60 9% 97%;
+    --sidebar-background: 220 15% 8%;
+    --sidebar-foreground: 210 40% 98%;
     --sidebar-primary: 43 96% 56%;
     --sidebar-primary-foreground: 20 91% 14%;
     --sidebar-accent: 47 95% 53%;
-    --sidebar-accent-foreground: 25 83% 14%;
-    --sidebar-border: 33 5% 32%;
+    --sidebar-accent-foreground: 220 13% 15%;
+    --sidebar-border: 220 13% 25%;
     --sidebar-ring: 43 96% 56%;
     --chart-1: 45 96% 64%;
     --chart-2: 48 96% 76%;
     --chart-3: 43 96% 56%;
     --chart-4: 37 92% 50%;
-    --chart-5: 33 5% 32%;
-    --sidebar: 12 6% 15%;
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
-    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
-    --glass-background: 24 9% 10% / 0.5;
-    --glass-border: 0 0% 100% / 0.15;
-    --glass-shadow: 0 8px 32px 0 hsl(0 0% 0% / 0.4);
+    --chart-5: 220 13% 25%;
+    --sidebar: 220 13% 12%;
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.3);
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.3);
+    --shadow-sm: 0 2px 4px 0px hsl(0 0% 0% / 0.4), 0 1px 2px -1px hsl(0 0% 0% / 0.2);
+    --shadow: 0 2px 4px 0px hsl(0 0% 0% / 0.4), 0 1px 2px -1px hsl(0 0% 0% / 0.2);
+    --shadow-md: 0 4px 6px 0px hsl(0 0% 0% / 0.4), 0 2px 4px -1px hsl(0 0% 0% / 0.2);
+    --shadow-lg: 0 8px 12px 0px hsl(0 0% 0% / 0.5), 0 4px 6px -1px hsl(0 0% 0% / 0.3);
+    --shadow-xl: 0 12px 20px 0px hsl(0 0% 0% / 0.5), 0 8px 10px -1px hsl(0 0% 0% / 0.3);
+    --shadow-2xl: 0 16px 32px 0px hsl(0 0% 0% / 0.6);
+    --glass-background: 220 15% 15% / 0.4;
+    --glass-border: 210 40% 60% / 0.12;
+    --glass-shadow: 0 8px 32px 0 hsl(0 0% 0% / 0.5), 0 0 0 1px hsl(210 40% 60% / 0.05);
   }
 }
 
@@ -241,6 +241,21 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Smooth color transitions for dark mode */
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+  }
+  
+  /* Exclude animations and transforms from dark mode transition */
+  * {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
   }
   
   /* Mobile optimizations for glass morphism */
@@ -260,5 +275,28 @@ All colors MUST be HSL.
   .glass, .glass-strong, .glass-input {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Dark mode specific enhancements */
+  .dark .glass {
+    box-shadow: var(--glass-shadow), 0 0 0 1px hsl(210 40% 60% / 0.06);
+  }
+  
+  .dark .glass-strong {
+    box-shadow: var(--glass-shadow), inset 0 0 100px hsl(210 40% 60% / 0.03);
+  }
+  
+  .dark .glass-input:focus {
+    background: hsl(220 15% 15% / 0.6);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.2);
+  }
+  
+  .dark .gradient-bg {
+    background: linear-gradient(135deg, hsl(220 15% 8%), hsl(220 15% 12%), hsl(220 15% 8%));
+  }
+  
+  .dark .gradient-bg::before {
+    background: radial-gradient(circle at 20% 50%, hsl(var(--primary) / 0.12), transparent 50%),
+                radial-gradient(circle at 80% 80%, hsl(var(--accent) / 0.12), transparent 50%);
   }
 }

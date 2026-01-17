@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FileText, LogOut, Settings, User, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 interface Profile {
   full_name: string | null;
@@ -19,7 +20,11 @@ interface Profile {
   username: string | null;
 }
 
-export function Header() {
+interface HeaderProps {
+  editorControls?: ReactNode;
+}
+
+export function Header({ editorControls }: HeaderProps = {}) {
   const { user, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -59,21 +64,42 @@ export function Header() {
   return (
     <header className="glass-strong border-b border-border/50 sticky top-0 z-50 shadow-lg">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link to="/dashboard" className="flex items-center gap-2">
-          <FileText className="h-8 w-8 text-primary" />
-          <span className="text-xl font-bold text-foreground">Cortana</span>
-        </Link>
+        <div className="flex items-center gap-4 flex-1 min-w-0">
+          <Link to="/dashboard" className="flex items-center gap-2 shrink-0">
+            <FileText className="h-8 w-8 text-primary" />
+            <span className="text-xl font-bold text-foreground">Cortana</span>
+          </Link>
+          
+          {/* Desktop Editor Controls */}
+          {editorControls && (
+            <>
+              <div className="hidden lg:block h-8 w-px bg-border/50 mx-2" />
+              <div className="hidden lg:flex items-center flex-1 min-w-0 gap-4">
+                {editorControls}
+              </div>
+            </>
+          )}
+        </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-4">
-          <Link to="/dashboard">
-            <Button variant="ghost" size="sm">Dashboard</Button>
-          </Link>
-          {isAdmin && (
-            <Link to="/admin/announcements">
-              <Button variant="ghost" size="sm">Manage Announcements</Button>
+        <nav className="hidden md:flex items-center gap-2 shrink-0">
+          {!editorControls ? (
+            <>
+              <Link to="/dashboard">
+                <Button variant="ghost" size="sm">Dashboard</Button>
+              </Link>
+              {isAdmin && (
+                <Link to="/admin/announcements">
+                  <Button variant="ghost" size="sm">Manage Announcements</Button>
+                </Link>
+              )}
+            </>
+          ) : (
+            <Link to="/dashboard" className="hidden lg:block">
+              <Button variant="ghost" size="sm">Back to Dashboard</Button>
             </Link>
           )}
+          <DarkModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-10 w-10 rounded-full">
@@ -156,6 +182,7 @@ export function Header() {
               <Settings className="mr-2 h-4 w-4" />
               Settings
             </Button>
+          <DarkModeToggle variant="default" className="w-full justify-start" />
           </Link>
           <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
             <LogOut className="mr-2 h-4 w-4" />
