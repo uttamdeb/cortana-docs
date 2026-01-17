@@ -140,13 +140,12 @@ export function Toolbar({
         <TooltipTrigger asChild>
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
             disabled
-            className="opacity-50 cursor-not-allowed"
+            className="opacity-50 cursor-not-allowed h-9 w-9 sm:w-auto sm:px-3"
           >
-            <Sparkles className="h-4 w-4 mr-2" />
+            <Sparkles className="h-4 w-4 sm:mr-2" />
             <span className="hidden sm:inline">Analyze with AI</span>
-            <span className="sm:hidden">AI</span>
           </Button>
         </TooltipTrigger>
         <TooltipContent>

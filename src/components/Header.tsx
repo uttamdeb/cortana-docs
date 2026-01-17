@@ -22,9 +22,10 @@ interface Profile {
 
 interface HeaderProps {
   editorControls?: ReactNode;
+  mobileEditorControls?: ReactNode;
 }
 
-export function Header({ editorControls }: HeaderProps = {}) {
+export function Header({ editorControls, mobileEditorControls }: HeaderProps = {}) {
   const { user, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -155,6 +156,7 @@ export function Header({ editorControls }: HeaderProps = {}) {
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
         <div className="md:hidden glass-strong border-t border-border/50 px-4 py-4 space-y-4 shadow-lg animate-fade-in">
+          {/* User Profile Section */}
           <div className="flex items-center gap-3 pb-4 border-b border-border/50">
             <Avatar className="h-12 w-12">
               <AvatarImage src={profile?.avatar_url || undefined} />
@@ -167,6 +169,15 @@ export function Header({ editorControls }: HeaderProps = {}) {
               <p className="text-sm text-muted-foreground">@{profile?.username || 'username'}</p>
             </div>
           </div>
+          
+          {/* Mobile Editor Controls */}
+          {mobileEditorControls && (
+            <div className="pb-4 border-b border-border/50">
+              {mobileEditorControls}
+            </div>
+          )}
+          
+          {/* Navigation Links */}
           <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
             <Button variant="ghost" className="w-full justify-start">
               <FileText className="mr-2 h-4 w-4" />

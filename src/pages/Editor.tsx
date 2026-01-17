@@ -258,101 +258,102 @@ export default function Editor() {
     </>
   );
 
+  const mobileEditorControls = (
+    <div className="space-y-4">
+      {/* Back Button */}
+      <Button
+        variant="ghost"
+        className="w-full justify-start"
+        onClick={() => navigate("/dashboard")}
+      >
+        <ArrowLeft className="h-4 w-4 mr-2" />
+        Back to Dashboard
+      </Button>
+      
+      {/* Document Title */}
+      <div>
+        <p className="text-xs text-muted-foreground mb-2">Document</p>
+        {editingTitle ? (
+          <div className="flex items-center gap-2">
+            <Input
+              value={titleInput}
+              onChange={(e) => setTitleInput(e.target.value)}
+              className="h-9 text-base font-semibold bg-background/50"
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleTitleSave();
+                if (e.key === "Escape") {
+                  setTitleInput(document.title);
+                  setEditingTitle(false);
+                }
+              }}
+            />
+            <Button size="icon" variant="ghost" onClick={handleTitleSave}>
+              <Check className="h-4 w-4" />
+            </Button>
+          </div>
+        ) : (
+          <div
+            className="flex items-center gap-2 cursor-pointer group p-2 hover:bg-accent rounded-md"
+            onClick={() => setEditingTitle(true)}
+          >
+            <h2 className="text-base font-semibold line-clamp-1 flex-1">
+              {document.title}
+            </h2>
+            <Edit2 className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+          </div>
+        )}
+      </div>
+
+      {/* Save Status */}
+      <div className="flex items-center gap-2 text-sm">
+        {saving ? (
+          <>
+            <Loader size="sm" />
+            <span>Saving...</span>
+          </>
+        ) : lastSaved ? (
+          <>
+            <Cloud className="h-4 w-4 text-primary" />
+            <span className="text-muted-foreground">
+              Saved {lastSaved.toLocaleTimeString()}
+            </span>
+          </>
+        ) : (
+          <>
+            <CloudOff className="h-4 w-4" />
+            <span className="text-muted-foreground">Not saved</span>
+          </>
+        )}
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex gap-2">
+        <Button
+          variant="outline"
+          className="flex-1"
+          onClick={handleDownload}
+        >
+          <Download className="h-4 w-4 mr-2" />
+          Download
+        </Button>
+        <Button
+          variant="outline"
+          className="flex-1 text-destructive hover:text-destructive"
+          onClick={() => setDeleteDialogOpen(true)}
+        >
+          <Trash2 className="h-4 w-4 mr-2" />
+          Delete
+        </Button>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen gradient-bg">
-      <Header editorControls={editorControls} />
+      <Header editorControls={editorControls} mobileEditorControls={mobileEditorControls} />
 
       <main className="container mx-auto px-4 py-4 md:py-8">
-        {/* Mobile Top Bar */}
-        <GlassCard variant="strong" className="mb-4 md:mb-6 p-3 md:p-4 shadow-xl lg:hidden">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2 md:gap-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => navigate("/dashboard")}
-              >
-                <ArrowLeft className="h-5 w-5" />
-              </Button>
-
-              {editingTitle ? (
-                <div className="flex items-center gap-2 flex-1">
-                  <Input
-                    value={titleInput}
-                    onChange={(e) => setTitleInput(e.target.value)}
-                    className="h-9 text-lg font-semibold bg-background/50 max-w-[200px] md:max-w-xs"
-                    autoFocus
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") handleTitleSave();
-                      if (e.key === "Escape") {
-                        setTitleInput(document.title);
-                        setEditingTitle(false);
-                      }
-                    }}
-                  />
-                  <Button size="icon" variant="ghost" onClick={handleTitleSave}>
-                    <Check className="h-4 w-4" />
-                  </Button>
-                </div>
-              ) : (
-                <div
-                  className="flex items-center gap-2 cursor-pointer group"
-                  onClick={() => setEditingTitle(true)}
-                >
-                  <h1 className="text-lg md:text-xl font-semibold line-clamp-1">
-                    {document.title}
-                  </h1>
-                  <Edit2 className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-              )}
-            </div>
-
-            <div className="flex items-center gap-2 justify-between sm:justify-end">
-              {/* Save Status */}
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                {saving ? (
-                  <>
-                    <Loader size="sm" />
-                    <span className="hidden sm:inline">Saving...</span>
-                  </>
-                ) : lastSaved ? (
-                  <>
-                    <Cloud className="h-4 w-4 text-primary" />
-                    <span className="hidden sm:inline">
-                      Saved {lastSaved.toLocaleTimeString()}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <CloudOff className="h-4 w-4" />
-                    <span className="hidden sm:inline">Not saved</span>
-                  </>
-                )}
-              </div>
-
-              <div className="flex items-center gap-1 md:gap-2">
-                <Button
-                  variant="ghost"
-                  size={isMobile ? "icon" : "sm"}
-                  onClick={handleDownload}
-                >
-                  <Download className="h-4 w-4" />
-                  {!isMobile && <span className="ml-2">Download</span>}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size={isMobile ? "icon" : "sm"}
-                  className="text-destructive hover:text-destructive"
-                  onClick={() => setDeleteDialogOpen(true)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                  {!isMobile && <span className="ml-2">Delete</span>}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </GlassCard>
-
         {/* Editor */}
         <TextEditor
           content={document.content || ""}
