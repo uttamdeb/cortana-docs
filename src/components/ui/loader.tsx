@@ -16,7 +16,7 @@ export function Loader({ size = "md", className }: LoaderProps) {
     <div className={cn("flex items-center justify-center", className)}>
       <div
         className={cn(
-          "animate-spin rounded-full border-primary border-t-transparent",
+          "animate-spin rounded-full border-primary border-t-transparent drop-shadow-lg",
           sizeClasses[size]
         )}
       />
@@ -26,10 +26,10 @@ export function Loader({ size = "md", className }: LoaderProps) {
 
 export function PageLoader() {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50">
-      <div className="glass-strong rounded-lg p-8 flex flex-col items-center gap-4">
+    <div className="fixed inset-0 flex items-center justify-center glass-overlay z-50 animate-in fade-in duration-200">
+      <div className="glass-strong rounded-lg p-8 flex flex-col items-center gap-4 shadow-2xl animate-in zoom-in duration-300">
         <Loader size="lg" />
-        <p className="text-sm text-muted-foreground">Loading...</p>
+        <p className="text-sm text-muted-foreground font-medium">Loading...</p>
       </div>
     </div>
   );

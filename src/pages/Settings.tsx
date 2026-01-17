@@ -155,7 +155,7 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-accent/10 to-background">
+    <div className="min-h-screen gradient-bg">
       <Header />
 
       <main className="container mx-auto px-4 py-8 max-w-2xl">
@@ -175,7 +175,7 @@ export default function Settings() {
             {/* Avatar Section */}
             <div className="flex flex-col items-center gap-4">
               <div className="relative">
-                <Avatar className="h-24 w-24">
+                <Avatar className="h-24 w-24 ring-4 ring-primary/20">
                   <AvatarImage src={profile?.avatar_url || undefined} />
                   <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
                     {getInitials()}
@@ -184,7 +184,7 @@ export default function Settings() {
                 <button
                   onClick={handleAvatarClick}
                   disabled={uploadingAvatar}
-                  className="absolute bottom-0 right-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors"
+                  className="absolute bottom-0 right-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 hover:scale-110 transition-all shadow-lg"
                 >
                   {uploadingAvatar ? (
                     <Loader size="sm" />
@@ -198,6 +198,7 @@ export default function Settings() {
                   accept="image/*"
                   className="hidden"
                   onChange={handleAvatarChange}
+                  aria-label="Upload avatar image"
                 />
               </div>
               <p className="text-sm text-muted-foreground">

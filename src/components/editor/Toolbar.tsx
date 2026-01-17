@@ -64,7 +64,7 @@ export function Toolbar({
 }: ToolbarProps) {
   return (
     <div className={cn(
-      "glass-strong rounded-lg p-2 flex items-center gap-2 flex-wrap",
+      "glass-strong rounded-lg p-2 flex items-center gap-2 flex-wrap shadow-lg",
       isMobile ? "justify-center" : ""
     )}>
       {/* Font Family */}

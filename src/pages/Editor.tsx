@@ -180,12 +180,12 @@ export default function Editor() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-accent/10 to-background">
+    <div className="min-h-screen gradient-bg">
       <Header />
 
       <main className="container mx-auto px-4 py-4 md:py-8">
         {/* Top Bar */}
-        <GlassCard className="mb-4 md:mb-6 p-3 md:p-4">
+        <GlassCard variant="strong" className="mb-4 md:mb-6 p-3 md:p-4 shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-2 md:gap-4">
               <Button

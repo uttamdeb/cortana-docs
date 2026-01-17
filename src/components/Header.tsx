@@ -57,7 +57,7 @@ export function Header() {
   };
 
   return (
-    <header className="glass-strong border-b border-border/50 sticky top-0 z-50">
+    <header className="glass-strong border-b border-border/50 sticky top-0 z-50 shadow-lg">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/dashboard" className="flex items-center gap-2">
           <FileText className="h-8 w-8 text-primary" />
@@ -125,7 +125,7 @@ export function Header() {
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden glass-strong border-t border-border/50 px-4 py-4 space-y-4">
+        <div className="md:hidden glass-strong border-t border-border/50 px-4 py-4 space-y-4 shadow-lg animate-fade-in">
           <div className="flex items-center gap-3 pb-4 border-b border-border/50">
             <Avatar className="h-12 w-12">
               <AvatarImage src={profile?.avatar_url || undefined} />

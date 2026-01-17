@@ -130,7 +130,7 @@ export default function AdminAnnouncements() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-accent/10 to-background">
+    <div className="min-h-screen gradient-bg">
       <Header />
 
       <main className="container mx-auto px-4 py-8 max-w-3xl">
@@ -187,14 +187,14 @@ export default function AdminAnnouncements() {
         <div className="space-y-4">
           <h2 className="text-lg font-semibold">All Announcements</h2>
           {announcements.length === 0 ? (
-            <GlassCard>
+            <GlassCard variant="strong">
               <p className="text-muted-foreground text-center py-8">
                 No announcements yet
               </p>
             </GlassCard>
           ) : (
             announcements.map((announcement) => (
-              <GlassCard key={announcement.id}>
+              <GlassCard key={announcement.id} variant="strong">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div className="flex-1">
                     <h3 className="font-semibold">{announcement.title}</h3>

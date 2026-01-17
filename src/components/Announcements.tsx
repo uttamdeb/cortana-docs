@@ -35,7 +35,7 @@ export function Announcements() {
 
   if (loading) {
     return (
-      <GlassCard className="w-full">
+      <GlassCard variant="strong" className="w-full">
         <div className="flex items-center gap-2 mb-4">
           <Bell className="h-5 w-5 text-primary" />
           <h2 className="text-lg font-semibold">Announcements</h2>
@@ -50,7 +50,7 @@ export function Announcements() {
   }
 
   return (
-    <GlassCard className="w-full">
+    <GlassCard variant="strong" className="w-full">
       <div className="flex items-center gap-2 mb-4">
         <Bell className="h-5 w-5 text-primary" />
         <h2 className="text-lg font-semibold">Announcements</h2>
@@ -59,7 +59,7 @@ export function Announcements() {
         {announcements.map((announcement) => (
           <div
             key={announcement.id}
-            className="p-4 rounded-lg bg-accent/30 border border-border/50"
+            className="p-4 rounded-lg glass-strong border border-border/40 hover:border-primary/40 hover:shadow-lg transition-all duration-200"
           >
             <h3 className="font-medium text-foreground mb-2">{announcement.title}</h3>
             <p className="text-sm text-muted-foreground whitespace-pre-wrap">{announcement.content}</p>

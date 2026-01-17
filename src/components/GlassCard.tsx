@@ -11,7 +11,7 @@ export function GlassCard({ children, className, variant = "default" }: GlassCar
   return (
     <div
       className={cn(
-        "rounded-lg p-6",
+        "rounded-lg p-6 animate-fade-in-up",
         variant === "default" ? "glass" : "glass-strong",
         className
       )}

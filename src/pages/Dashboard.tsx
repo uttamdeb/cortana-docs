@@ -125,7 +125,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-accent/10 to-background">
+    <div className="min-h-screen gradient-bg">
       <Header />
       
       <main className="container mx-auto px-4 py-8">
@@ -145,13 +145,13 @@ export default function Dashboard() {
             </div>
 
             {loadingDocs ? (
-              <GlassCard>
+              <GlassCard variant="strong">
                 <div className="flex items-center justify-center py-12">
                   <Loader size="lg" />
                 </div>
               </GlassCard>
             ) : documents.length === 0 ? (
-              <GlassCard className="text-center py-12">
+              <GlassCard variant="strong" className="text-center py-12">
                 <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
                 <h2 className="text-xl font-semibold mb-2">No documents yet</h2>
                 <p className="text-muted-foreground mb-6">
@@ -171,7 +171,8 @@ export default function Dashboard() {
                 {documents.map((doc) => (
                   <GlassCard
                     key={doc.id}
-                    className="cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all group"
+                    variant="strong"
+                    className="cursor-pointer hover:ring-2 hover:ring-primary/50 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group"
                   >
                     <div onClick={() => navigate(`/editor/${doc.id}`)}>
                       <div className="flex items-start justify-between">

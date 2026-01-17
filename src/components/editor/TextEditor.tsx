@@ -100,7 +100,7 @@ export function TextEditor({ content, onChange, className }: TextEditorProps) {
         ref={editorRef}
         contentEditable
         className={cn(
-          "glass min-h-[400px] md:min-h-[600px] rounded-lg p-6 focus:outline-none focus:ring-2 focus:ring-primary/50",
+          "glass-strong min-h-[400px] md:min-h-[600px] rounded-lg p-6 focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-xl",
           "prose prose-sm md:prose-base max-w-none",
           "[&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6",
           isMobile ? "text-base" : ""
