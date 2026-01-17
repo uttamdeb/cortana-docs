@@ -178,31 +178,35 @@ export function Header({ editorControls, mobileEditorControls }: HeaderProps = {
           )}
           
           {/* Navigation Links */}
-          <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+          <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="block">
             <Button variant="ghost" className="w-full justify-start">
               <FileText className="mr-2 h-4 w-4" />
               Dashboard
             </Button>
           </Link>
           {isAdmin && (
-            <Link to="/admin/announcements" onClick={() => setMobileMenuOpen(false)}>
+            <Link to="/admin/announcements" onClick={() => setMobileMenuOpen(false)} className="block">
               <Button variant="ghost" className="w-full justify-start">
                 <Megaphone className="mr-2 h-4 w-4" />
                 Manage Announcements
               </Button>
             </Link>
           )}
-          <Link to="/settings" onClick={() => setMobileMenuOpen(false)}>
+          <Link to="/settings" onClick={() => setMobileMenuOpen(false)} className="block">
             <Button variant="ghost" className="w-full justify-start">
               <Settings className="mr-2 h-4 w-4" />
               Settings
             </Button>
           </Link>
-          <DarkModeToggle variant="default" className="w-full justify-start" />
-          <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Log out
-          </Button>
+          <div className="block">
+            <DarkModeToggle variant="default" className="w-full justify-start" />
+          </div>
+          <div className="block">
+            <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Log out
+            </Button>
+          </div>
         </div>
       )}
     </header>
