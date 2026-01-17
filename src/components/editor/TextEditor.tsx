@@ -173,7 +173,7 @@ export function TextEditor({ content, onChange, className, username }: TextEdito
             style={{
               left: `${cursorPosition.x}px`,
               top: `${cursorPosition.y}px`,
-              transform: 'translate(8px, 8px)',
+              transform: 'translate(-5px, -3px)',
               transition: 'left 0.05s ease-out, top 0.05s ease-out',
             }}
           >
