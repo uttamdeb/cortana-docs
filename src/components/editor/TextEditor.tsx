@@ -173,29 +173,29 @@ export function TextEditor({ content, onChange, className, username }: TextEdito
             style={{
               left: `${cursorPosition.x}px`,
               top: `${cursorPosition.y}px`,
-              transform: 'translate(-5px, -3px)',
+              transform: 'translate(-2px, -12px)',
               transition: 'left 0.05s ease-out, top 0.05s ease-out',
             }}
           >
-            <div className="relative">
-              {/* Cursor pointer */}
+            <div className="relative flex items-start gap-2">
+              {/* I-beam cursor */}
               <svg
-                width="24"
+                width="16"
                 height="24"
-                viewBox="0 0 24 24"
+                viewBox="0 0 16 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 className="drop-shadow-lg"
               >
-                <path
-                  d="M5 3L5 17L9 13L12 19L14 18L11 12L17 12L5 3Z"
-                  fill="hsl(var(--primary))"
-                  stroke="white"
-                  strokeWidth="1"
-                />
+                {/* Top horizontal bar */}
+                <line x1="3" y1="2" x2="13" y2="2" stroke="hsl(var(--primary))" strokeWidth="2.5" strokeLinecap="round"/>
+                {/* Vertical line */}
+                <line x1="8" y1="2" x2="8" y2="22" stroke="hsl(var(--primary))" strokeWidth="2.5" strokeLinecap="round"/>
+                {/* Bottom horizontal bar */}
+                <line x1="3" y1="22" x2="13" y2="22" stroke="hsl(var(--primary))" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
               {/* Username label */}
-              <div className="absolute left-6 top-0 glass-strong rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap shadow-lg border border-primary/30">
+              <div className="glass-strong rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap shadow-lg border border-primary/30 mt-0">
                 {username}
               </div>
             </div>
