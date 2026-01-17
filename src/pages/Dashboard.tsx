@@ -129,12 +129,12 @@ export default function Dashboard() {
       <Header />
       
       <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-6">
+            <div className="flex items-center gap-4">
               <h1 className="text-2xl md:text-3xl font-bold">My Documents</h1>
-              <Button onClick={createNewDocument} disabled={creatingDoc}>
+              <Button onClick={createNewDocument} disabled={creatingDoc} size="sm">
                 {creatingDoc ? (
                   <Loader size="sm" className="mr-2" />
                 ) : (
@@ -210,9 +210,16 @@ export default function Dashboard() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
-            <Announcements />
-          </div>
+          <aside className="hidden lg:block">
+            <div className="sticky top-20">
+              <Announcements />
+            </div>
+          </aside>
+        </div>
+
+        {/* Mobile Announcements - Below documents on mobile */}
+        <div className="lg:hidden mt-8">
+          <Announcements />
         </div>
       </main>
 

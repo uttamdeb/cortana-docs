@@ -35,12 +35,16 @@ export function Announcements() {
 
   if (loading) {
     return (
-      <GlassCard variant="strong" className="w-full">
-        <div className="flex items-center gap-2 mb-4">
-          <Bell className="h-5 w-5 text-primary" />
-          <h2 className="text-lg font-semibold">Announcements</h2>
+      <GlassCard variant="strong" className="w-full shadow-2xl border-l-4 border-l-primary/50">
+        <div className="flex items-center gap-2 mb-6 pb-4 border-b border-border/50">
+          <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
+            <Bell className="h-4 w-4 text-primary" />
+          </div>
+          <h2 className="text-xl font-bold">Announcements</h2>
         </div>
-        <Loader size="sm" />
+        <div className="flex items-center justify-center py-8">
+          <Loader size="sm" />
+        </div>
       </GlassCard>
     );
   }
@@ -50,20 +54,22 @@ export function Announcements() {
   }
 
   return (
-    <GlassCard variant="strong" className="w-full">
-      <div className="flex items-center gap-2 mb-4">
-        <Bell className="h-5 w-5 text-primary" />
-        <h2 className="text-lg font-semibold">Announcements</h2>
+    <GlassCard variant="strong" className="w-full shadow-2xl border-l-4 border-l-primary/50">
+      <div className="flex items-center gap-2 mb-6 pb-4 border-b border-border/50">
+        <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
+          <Bell className="h-4 w-4 text-primary" />
+        </div>
+        <h2 className="text-xl font-bold">Announcements</h2>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto pr-2 custom-scrollbar">
         {announcements.map((announcement) => (
           <div
             key={announcement.id}
-            className="p-4 rounded-lg glass-strong border border-border/40 hover:border-primary/40 hover:shadow-lg transition-all duration-200"
+            className="p-4 rounded-lg glass border border-border/40 hover:border-primary/40 hover:shadow-lg transition-all duration-200"
           >
-            <h3 className="font-medium text-foreground mb-2">{announcement.title}</h3>
-            <p className="text-sm text-muted-foreground whitespace-pre-wrap">{announcement.content}</p>
-            <p className="text-xs text-muted-foreground mt-2">
+            <h3 className="font-semibold text-foreground mb-2 line-clamp-2">{announcement.title}</h3>
+            <p className="text-sm text-muted-foreground whitespace-pre-wrap line-clamp-3">{announcement.content}</p>
+            <p className="text-xs text-muted-foreground/70 mt-3 flex items-center gap-1">
               {new Date(announcement.created_at).toLocaleDateString()}
             </p>
           </div>
