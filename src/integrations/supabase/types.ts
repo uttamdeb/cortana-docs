@@ -48,6 +48,8 @@ export type Database = {
         Row: {
           content: string | null
           created_at: string
+          font_family: string | null
+          font_size: string | null
           id: string
           title: string
           updated_at: string
@@ -56,6 +58,8 @@ export type Database = {
         Insert: {
           content?: string | null
           created_at?: string
+          font_family?: string | null
+          font_size?: string | null
           id?: string
           title?: string
           updated_at?: string
@@ -64,6 +68,8 @@ export type Database = {
         Update: {
           content?: string | null
           created_at?: string
+          font_family?: string | null
+          font_size?: string | null
           id?: string
           title?: string
           updated_at?: string
