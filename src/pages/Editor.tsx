@@ -105,15 +105,11 @@ export default function Editor() {
       return;
     }
 
-    setDocument({
-      ...data,
-      font_family: "Arial",
-      font_size: "16"
-    });
+    setDocument(data);
     setTitleInput(data.title);
     contentRef.current = data.content || "";
-    setCurrentFont("Arial");
-    setCurrentFontSize("16");
+    setCurrentFont(data.font_family || "Arial");
+    setCurrentFontSize(data.font_size || "16");
     setLastSaved(new Date(data.updated_at));
     setLoading(false);
   };
